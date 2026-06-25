@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ProcessingResult } from './entities/result.entity';
 import { CreateResultDto } from './dto/create-result.dto';
 
@@ -32,6 +32,17 @@ export class ResultsService {
     }
 
     return resultados;
+  }
+
+  async buscarPorNombresArchivo(nombres: string[]) {
+    if (!nombres.length) return [];
+    return await this.resultsRepository.find({
+      where: [
+        { archivoOrigen: In(nombres) },
+        { nombreTransformado: In(nombres) },
+      ],
+      relations: { rule: true },
+    });
   }
 
   async resumen(batchId: string) {
