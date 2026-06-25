@@ -13,9 +13,7 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   back:
-    build:
-      context: ../back
-      dockerfile: Dockerfile
+    image: ghcr.io/${GHCR_OWNER:-cesarnarvaez2405}/prueba-tecnica-bg-back:${IMAGE_TAG:-latest}
     container_name: prueba_bg_back
     restart: unless-stopped
     depends_on:
