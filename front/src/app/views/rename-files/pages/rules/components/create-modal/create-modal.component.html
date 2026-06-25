@@ -1,0 +1,96 @@
+<div class="p-4">
+  <div class="flex justify-between items-center pb-4 border-b border-gray-200">
+    <h4 class="text-lg font-bold">{{ title }}</h4>
+    <button
+      class="text-gray-500 hover:text-gray-700 text-2xl leading-none"
+      (click)="activeModal.dismiss()"
+    >
+      &times;
+    </button>
+  </div>
+
+  <form [formGroup]="ruleForm" (ngSubmit)="onSubmit()" class="pt-4">
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col gap-1">
+        <label class="font-semibold text-sm">Patrón *</label>
+        <input
+          type="text"
+          formControlName="pattern"
+          placeholder="Ej: PHO_CD_DES_*"
+          class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+        />
+        @if (ruleForm.get('pattern')?.touched && ruleForm.get('pattern')?.hasError('required')) {
+          <span class="text-red-500 text-xs">El patrón es requerido</span>
+        }
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="font-semibold text-sm">Formato de fecha *</label>
+        <select
+          formControlName="dateFormat"
+          class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+        >
+          <option value="AAAAMMDD">AAAAMMDD</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="font-semibold text-sm">Template de salida *</label>
+        <input
+          type="text"
+          formControlName="outTemplate"
+          placeholder="Ej: CuentaDeposito"
+          class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+        />
+        @if (ruleForm.get('outTemplate')?.touched && ruleForm.get('outTemplate')?.hasError('required')) {
+          <span class="text-red-500 text-xs">El template de salida es requerido</span>
+        }
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="font-semibold text-sm">Prioridad *</label>
+        <input
+          type="number"
+          formControlName="priority"
+          min="1"
+          class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-blue-500"
+        />
+        @if (ruleForm.get('priority')?.touched && ruleForm.get('priority')?.hasError('required')) {
+          <span class="text-red-500 text-xs">La prioridad es requerida</span>
+        }
+        @if (ruleForm.get('priority')?.touched && ruleForm.get('priority')?.hasError('min')) {
+          <span class="text-red-500 text-xs">La prioridad debe ser al menos 1</span>
+        }
+      </div>
+
+      <div class="flex items-center gap-2 col-span-2">
+        <input
+          type="checkbox"
+          formControlName="isActive"
+          id="isActive"
+          class="w-4 h-4 cursor-pointer"
+        />
+        <label for="isActive" class="cursor-pointer select-none font-semibold text-sm">
+          Activa
+        </label>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 pt-6 border-t border-gray-200 mt-4">
+      <button
+        type="button"
+        class="px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+        (click)="activeModal.dismiss()"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:opacity-50"
+        [disabled]="isSubmitting()"
+      >
+        {{ isSubmitting() ? 'Guardando...' : confirmText }}
+      </button>
+    </div>
+  </form>
+</div>

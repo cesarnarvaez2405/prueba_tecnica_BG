@@ -1,0 +1,21 @@
+<div style="height: 100%; display: flex; flex-direction: column">
+  <ag-grid-angular
+    style="width: 100%; height: 100%"
+    [rowData]="rowData"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [theme]="theme"
+    [autoSizeStrategy]="autoSizeStrategy"
+    [domLayout]="domLayout"
+    (gridReady)="onGridReady($event)"
+    [rowSelection]="rowSelection"
+    [pagination]="isPaginationForData()"
+    [paginationPageSize]="pageSize()"
+    [paginationPageSizeSelector]="paginationPageSizeSelector"
+    [selectionColumnDef]="selectionColumnDef"
+    [noRowsOverlayComponent]="noRowsOverlayComponent"
+    [tooltipShowDelay]="50"
+    (gridSizeChanged)="onGridSizeChanged($event)"
+    (rowSelected)="onRowSelected($event)"
+  />
+</div>
