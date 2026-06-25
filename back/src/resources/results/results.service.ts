@@ -1,4 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { In, Repository } from 'typeorm';
 import { ProcessingResult } from './entities/result.entity';
 import { CreateResultDto } from './dto/create-result.dto';
@@ -8,6 +9,7 @@ export class ResultsService {
   constructor(
     @Inject('RESULTS_REPOSITORY')
     private readonly resultsRepository: Repository<ProcessingResult>,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async guardarResultados(createResultDto: CreateResultDto) {
@@ -18,7 +20,17 @@ export class ResultsService {
       }),
     );
 
-    return await this.resultsRepository.save(entidades);
+    const guardados = await this.resultsRepository.save(entidades);
+
+    this.eventEmitter.emit('processing.completed', {
+      batchId: createResultDto.batchId,
+      total: guardados.length,
+      transformados: guardados.filter((e) => e.estado === 'TRANSFORMADO').length,
+      errores: guardados.filter((e) => e.estado === 'ERROR').length,
+      noMapeados: guardados.filter((e) => e.estado === 'NO_MAPEADO').length,
+    });
+
+    return guardados;
   }
 
   async buscarPorBatchId(batchId: string) {
