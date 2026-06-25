@@ -6,6 +6,11 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+ARG API_URL=http://44.217.15.185:1010/prueba-tecnica-bg/server/
+RUN mkdir -p src/environments && \
+    echo "export const environment = { production: true, API_URL: '${API_URL}' };" > src/environments/environment.ts
+
 RUN NODE_OPTIONS="--max-old-space-size=1024" npm run build
 
 FROM node:24-alpine
