@@ -8,5 +8,6 @@ import { resultsProviders } from './results.providers';
   imports: [DatabaseModule],
   controllers: [ResultsController],
   providers: [...resultsProviders, ResultsService],
+  exports: [ResultsService],
 })
 export class ResultsModule {}

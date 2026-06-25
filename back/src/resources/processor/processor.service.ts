@@ -17,7 +17,7 @@ export class ProcessorService {
 
   async iniciarProcesamiento() {
     const archivos = await this.docsService.listarArchivos();
-    const fileKeys = archivos.map((archivo) => archivo.key);
+    const fileKeys = archivos.map((archivo) => archivo.archivoActual);
     const rules = await this.rulesService.buscarTodos();
 
     const batchId = uuidv4();
