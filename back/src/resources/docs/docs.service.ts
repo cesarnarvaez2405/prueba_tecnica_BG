@@ -69,6 +69,34 @@ export class DocsService {
     });
   }
 
+  async generarYSubirArchivosDePrueba() {
+    const fecha = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const archivos = [
+      { nombre: `PHO_CD_DES_${fecha}.txt`, contenido: 'datos cuenta deposito' },
+      { nombre: `PHO_CD_DES_${fecha}.csv`, contenido: 'col1,col2\nval1,val2' },
+      { nombre: `PHO_SV_${fecha}.txt`, contenido: 'datos cuenta ahorros' },
+      { nombre: `PHO_SV_${fecha}`, contenido: 'archivo sin extension ahorros' },
+      { nombre: `PHO_CK_${fecha}.txt`, contenido: 'datos cuenta corriente' },
+      { nombre: `PHO_CK_${fecha}`, contenido: 'archivo sin extension corriente' },
+      { nombre: `garantias_${fecha}.txt`, contenido: 'datos garantias hipotecarias' },
+      { nombre: `garantias_${fecha}`, contenido: 'archivo sin extension garantias' },
+      { nombre: `ArchivoSinMapeo_001.txt`, contenido: 'archivo sin regla asociada' },
+      { nombre: `ReporteMensual`, contenido: 'otro archivo sin mapeo ni extension' },
+    ];
+
+    const resultados = await Promise.all(
+      archivos.map((archivo) =>
+        this.upload(archivo.nombre, Buffer.from(archivo.contenido)),
+      ),
+    );
+
+    return {
+      archivosGenerados: archivos.length,
+      archivos: archivos.map((a) => a.nombre),
+      resultados,
+    };
+  }
+
   async uploadMasivo(files: Express.Multer.File[]) {
     const resultados = await Promise.all(
       files.map((file) => this.upload(file.originalname, file.buffer)),
