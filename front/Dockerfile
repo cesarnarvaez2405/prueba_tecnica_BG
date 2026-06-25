@@ -13,14 +13,11 @@ RUN mkdir -p src/environments && \
 
 RUN NODE_OPTIONS="--max-old-space-size=1024" npm run build
 
-FROM node:24-alpine
+FROM nginx:alpine
 
-WORKDIR /app
-
-COPY --from=build /app/dist/front ./dist/front
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package*.json ./
+COPY --from=build /app/dist/front/browser /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 4000
 
-CMD ["node", "dist/front/server/server.mjs"]
+CMD ["nginx", "-g", "daemon off;"]
