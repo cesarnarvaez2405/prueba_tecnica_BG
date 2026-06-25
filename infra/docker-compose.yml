@@ -24,6 +24,7 @@ services:
       - "${APP_PORT:-1010}:1010"
     environment:
       PORT: 1010
+      ENVIRONMENT_PROJECT: production
       HOST_DB: db
       PORT_DB: 5432
       USER_DB: ${DB_USER:-postgres}
