@@ -34,5 +34,14 @@ services:
       AWS_BUCKET_NAME: ${AWS_BUCKET_NAME}
       AWS_SQS_QUEUE_URL: ${AWS_SQS_QUEUE_URL}
 
+  front:
+    image: ghcr.io/${GHCR_OWNER:-cesarnarvaez2405}/prueba-tecnica-bg-front:${IMAGE_TAG:-latest}
+    container_name: prueba_bg_front
+    restart: unless-stopped
+    depends_on:
+      - back
+    ports:
+      - "${FRONT_PORT:-4000}:4000"
+
 volumes:
   pg_data:

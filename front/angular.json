@@ -35,15 +35,7 @@
               "src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "security": {
-              "allowedHosts": []
-            },
-            "prerender": true,
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -107,5 +99,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "c6da0c8c-5503-49d8-aa9b-23b4b07fcb09"
   }
 }

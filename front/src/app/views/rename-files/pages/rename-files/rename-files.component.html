@@ -1,1 +1,28 @@
-<p>rename-files works!</p>
+<div class="p-4">
+  <h3 class="text-xl font-bold pb-2">Rename Files</h3>
+
+  <div class="flex justify-end gap-3 pb-4">
+    <button
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+      (click)="handleGenerarPrueba()"
+    >
+      Generar archivos simulación
+    </button>
+    <button
+      class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+      (click)="handleProcesarDocumentos()"
+    >
+      Procesar documentos
+    </button>
+  </div>
+
+  @if (docsResource.isLoading()) {
+    <p>Cargando archivos...</p>
+  } @else {
+    <table-component
+      [colDefs]="colDefs"
+      [rowData]="docsResource.value() ?? []"
+      [defaultColDef]="defaultColDef"
+    ></table-component>
+  }
+</div>
