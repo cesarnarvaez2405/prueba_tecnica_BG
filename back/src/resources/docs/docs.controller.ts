@@ -22,6 +22,12 @@ export class DocsController {
     return await this.docsService.listarArchivos();
   }
 
+  @Post('generar-prueba')
+  @ApiOperation({ summary: 'Generar 10 archivos de prueba y subirlos a S3' })
+  async generarArchivosDePrueba() {
+    return await this.docsService.generarYSubirArchivosDePrueba();
+  }
+
   @Post('upload')
   @ApiOperation({ summary: 'Subir un archivo a S3' })
   @ApiConsumes('multipart/form-data')
